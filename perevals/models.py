@@ -7,8 +7,8 @@ class Pereval(models.Model):
 
     beauty_title = models.CharField(max_length=128)
     title = models.CharField(max_length=128)
-    other_title = models.CharField(max_length=128)
-    connect = models.CharField(max_length=128)
+    other_title = models.CharField(max_length=128, null=True, blank=True)
+    connect = models.CharField(max_length=128, null=True, blank=True, default="")
     add_time = models.CharField(max_length=128)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES,
                               default='NW')
@@ -22,25 +22,25 @@ class Users(models.Model):
     email = models.EmailField(max_length=128, unique=True)
     fam = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
-    otc = models.CharField(max_length=128)
+    otc = models.CharField(max_length=128, null=True, blank=True)
     phone = models.CharField(max_length=64, unique=True)
 
 
 class Coords(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
-    height = models.IntegerField()
+    height = models.IntegerField(default=0)
 
 
 class Level(models.Model):
-    winter = models.CharField(max_length=2, default="")
-    summer = models.CharField(max_length=2, default="")
-    autumn = models.CharField(max_length=2, default="")
-    spring = models.CharField(max_length=2, default="")
+    winter = models.CharField(max_length=2, null=True, blank=True, default="")
+    summer = models.CharField(max_length=2, null=True, blank=True,  default="")
+    autumn = models.CharField(max_length=2, null=True, blank=True, default="")
+    spring = models.CharField(max_length=2, null=True, blank=True, default="")
 
 
 class Images(models.Model):
-    data = models.URLField(max_length=256)
+    data = models.CharField(max_length=256)
     title = models.CharField(max_length=128)
 
     pereval = models.ForeignKey('Pereval', on_delete=models.CASCADE,

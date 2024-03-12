@@ -44,6 +44,9 @@ INSTALLED_APPS = [
 
     # drf
     'rest_framework',
+
+    # perevals
+    'perevals',
 ]
 
 MIDDLEWARE = [
