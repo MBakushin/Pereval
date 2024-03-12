@@ -29,18 +29,18 @@ class Users(models.Model):
 class Coords(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
-    height = models.FloatField()
+    height = models.IntegerField()
 
 
 class Level(models.Model):
     winter = models.CharField(max_length=2, default="")
-    spring = models.CharField(max_length=2, default="")
     summer = models.CharField(max_length=2, default="")
     autumn = models.CharField(max_length=2, default="")
+    spring = models.CharField(max_length=2, default="")
 
 
 class Images(models.Model):
-    image = models.CharField(max_length=256)
+    data = models.URLField(max_length=256)
     title = models.CharField(max_length=128)
 
     pereval = models.ForeignKey('Pereval', on_delete=models.CASCADE,
