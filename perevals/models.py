@@ -17,6 +17,9 @@ class Pereval(models.Model):
     coords = models.ForeignKey('Coords', on_delete=models.CASCADE)
     level = models.ForeignKey('Level', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
 
 class Users(models.Model):
     email = models.EmailField(max_length=128, unique=True)
@@ -29,7 +32,7 @@ class Users(models.Model):
 class Coords(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
-    height = models.IntegerField(default=0)
+    height = models.IntegerField()
 
 
 class Level(models.Model):
