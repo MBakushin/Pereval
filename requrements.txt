@@ -1,3 +1,7 @@
 python-dotenv
 djangorestframework
+django-rest-swagger
+drf-yasg
+drf-writable-nested
 psycopg2
+Pillow

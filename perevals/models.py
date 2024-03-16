@@ -9,7 +9,7 @@ class Pereval(models.Model):
     title = models.CharField(max_length=128)
     other_title = models.CharField(max_length=128, null=True, blank=True)
     connect = models.CharField(max_length=128, null=True, blank=True, default="")
-    add_time = models.CharField(max_length=128)
+    add_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES,
                               default='NW')
 
@@ -22,11 +22,11 @@ class Pereval(models.Model):
 
 
 class Users(models.Model):
-    email = models.EmailField(max_length=128, unique=True)
+    email = models.EmailField(max_length=128)
     fam = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     otc = models.CharField(max_length=128, null=True, blank=True)
-    phone = models.CharField(max_length=64, unique=True)
+    phone = models.CharField(max_length=64)
 
 
 class Coords(models.Model):
@@ -43,7 +43,7 @@ class Level(models.Model):
 
 
 class Images(models.Model):
-    data = models.CharField(max_length=256)
+    data = models.ImageField(upload_to='images')
     title = models.CharField(max_length=128)
 
     pereval = models.ForeignKey('Pereval', on_delete=models.CASCADE,

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from drf_writable_nested import WritableNestedModelSerializer
 
 from .models import *
 
@@ -22,20 +23,24 @@ class LevelSerializer(serializers.ModelSerializer):
 
 
 class ImagesSerializer(serializers.ModelSerializer):
+    data = serializers.URLField()
     class Meta:
         model = Images
         fields = ['data', 'title', ]
 
 
-class PerevalSerializer(serializers.ModelSerializer):
+class PerevalSerializer(WritableNestedModelSerializer):
+    add_time = serializers.DateTimeField(read_only=True)
+    status = serializers.CharField(read_only=True)
+
     user = UsersSerializer()
     coords = CoordsSerializer()
-    level = LevelSerializer()
+    level = LevelSerializer(allow_null=True)
     images = ImagesSerializer(many=True)
 
     class Meta:
         model = Pereval
-        fields = ['beauty_title', 'title', 'other_title', 'connect', 'add_time',
+        fields = ['status', 'beauty_title', 'title', 'other_title', 'connect', 'add_time',
                   'user', 'coords', 'level', 'images', ]
 
     def create(self, validated_data, **kwargs):
@@ -59,3 +64,18 @@ class PerevalSerializer(serializers.ModelSerializer):
             Images.objects.create(data=data, title=title, pereval=pereval)
 
         return pereval
+
+    def validate(self, data):
+        if self.instance is not None:
+            instance_user = self.instance.user
+            data_user = data.get('user')
+            validating_data_fields = [
+                instance_user.email != data_user['email'],
+                instance_user.fam != data_user['fam'],
+                instance_user.name != data_user['name'],
+                instance_user.otc != data_user['otc'],
+                instance_user.phone != data_user['phone'],
+            ]
+            if data_user is not None and any(validating_data_fields):
+                raise serializers.ValidationError({"Rejected": "User's data cannot be changed"})
+            return data
