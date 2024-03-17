@@ -38,7 +38,7 @@ class PerevalViewset(viewsets.ModelViewSet):
             return Response({
                 'status': status.HTTP_200_OK,
                 'message': None,
-                'id': serializer.data['id']
+                # 'id': serializer.data['id']
             })
         if status.HTTP_400_BAD_REQUEST:
             return Response({
@@ -46,7 +46,7 @@ class PerevalViewset(viewsets.ModelViewSet):
                 'message': "Bad request",
                 'id': None
             })
-        if status.HTTP_500_INTERNAL_SERVER_ERROR:
+        elif status.HTTP_500_INTERNAL_SERVER_ERROR:
             return Response({
                 'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
                 'message': "Internal server error",
@@ -63,7 +63,7 @@ class PerevalViewset(viewsets.ModelViewSet):
                     'state': '1',
                     'status': status.HTTP_200_OK,
                     'message': "Changes were saved successfully",
-                    'id': serializer.data['id']
+                    # 'id': serializer.data['id']
                 })
             if status.HTTP_400_BAD_REQUEST:
                 return Response({

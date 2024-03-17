@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from drf_writable_nested import WritableNestedModelSerializer
 
+from config.settings import DATETIME_FORMAT
 from .models import *
 
 
@@ -30,8 +31,8 @@ class ImagesSerializer(serializers.ModelSerializer):
 
 
 class PerevalSerializer(WritableNestedModelSerializer):
-    add_time = serializers.DateTimeField(read_only=True)
-    status = serializers.CharField(read_only=True)
+    add_time = serializers.DateTimeField(format=DATETIME_FORMAT, read_only=True)
+    status = serializers.HiddenField(default='NW')
 
     user = UsersSerializer()
     coords = CoordsSerializer()
@@ -55,8 +56,7 @@ class PerevalSerializer(WritableNestedModelSerializer):
         level = Level.objects.create(**level)
 
         pereval = Pereval.objects.create(**validated_data, user=user,
-                                         coords=coords, level=level,
-                                         status='NW')
+                                         coords=coords, level=level)
 
         for i in images:
             data = i.pop('data')
@@ -78,4 +78,4 @@ class PerevalSerializer(WritableNestedModelSerializer):
             ]
             if data_user is not None and any(validating_data_fields):
                 raise serializers.ValidationError({"Rejected": "User's data cannot be changed"})
-            return data
+        return data
