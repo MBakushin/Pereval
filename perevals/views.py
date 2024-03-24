@@ -6,9 +6,9 @@ from .models import *
 from .serializers import *
 
 
-class UsersViewset(viewsets.ModelViewSet):
-    queryset = Users.objects.all()
-    serializer_class = UsersSerializer
+class UserViewset(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class CoordsViewset(viewsets.ModelViewSet):
@@ -38,9 +38,9 @@ class PerevalViewset(viewsets.ModelViewSet):
             return Response({
                 'status': status.HTTP_200_OK,
                 'message': None,
-                # 'id': serializer.data['id']
+                'id': serializer.data['id'],
             })
-        if status.HTTP_400_BAD_REQUEST:
+        elif status.HTTP_400_BAD_REQUEST:
             return Response({
                 'status': status.HTTP_400_BAD_REQUEST,
                 'message': "Bad request",
@@ -63,7 +63,7 @@ class PerevalViewset(viewsets.ModelViewSet):
                     'state': '1',
                     'status': status.HTTP_200_OK,
                     'message': "Changes were saved successfully",
-                    # 'id': serializer.data['id']
+                    'id': serializer.data['id']
                 })
             if status.HTTP_400_BAD_REQUEST:
                 return Response({

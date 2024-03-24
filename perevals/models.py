@@ -13,7 +13,7 @@ class Pereval(models.Model):
     status = models.CharField(max_length=2, choices=STATUS_CHOICES,
                               default='NW')
 
-    user = models.ForeignKey('Users', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     coords = models.ForeignKey('Coords', on_delete=models.CASCADE)
     level = models.ForeignKey('Level', on_delete=models.CASCADE)
 
@@ -21,7 +21,7 @@ class Pereval(models.Model):
         return self.title
 
 
-class Users(models.Model):
+class User(models.Model):
     email = models.EmailField(max_length=128)
     fam = models.CharField(max_length=128)
     name = models.CharField(max_length=128)

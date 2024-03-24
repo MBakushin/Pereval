@@ -5,9 +5,9 @@ from config.settings import DATETIME_FORMAT
 from .models import *
 
 
-class UsersSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Users
+        model = User
         fields = ['email', 'fam', 'name', 'otc', 'phone', ]
 
 
@@ -34,15 +34,15 @@ class PerevalSerializer(WritableNestedModelSerializer):
     add_time = serializers.DateTimeField(format=DATETIME_FORMAT, read_only=True)
     status = serializers.HiddenField(default='NW')
 
-    user = UsersSerializer()
+    user = UserSerializer()
     coords = CoordsSerializer()
     level = LevelSerializer(allow_null=True)
     images = ImagesSerializer(many=True)
 
     class Meta:
         model = Pereval
-        fields = ['status', 'beauty_title', 'title', 'other_title', 'connect', 'add_time',
-                  'user', 'coords', 'level', 'images', ]
+        fields = ['id', 'status', 'beauty_title', 'title', 'other_title',
+                  'connect', 'add_time', 'user', 'coords', 'level', 'images', ]
 
     def create(self, validated_data, **kwargs):
         user = validated_data.pop('user')
@@ -50,7 +50,7 @@ class PerevalSerializer(WritableNestedModelSerializer):
         level = validated_data.pop('level')
         images = validated_data.pop('images')
 
-        user, created = Users.objects.get_or_create(**user)
+        user, created = User.objects.get_or_create(**user)
 
         coords = Coords.objects.create(**coords)
         level = Level.objects.create(**level)
